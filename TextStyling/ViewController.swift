@@ -27,7 +27,7 @@ class ViewController: UIViewController {
             ],
             "h1 i" : [
                 .FontName("Courier-BoldOblique"),
-                .ForegroundColor(UIColor.greenColor())
+                .ForegroundColor(UIColor.blueColor())
             ],
             "p" : [
                 .FontSize(14),
@@ -62,39 +62,39 @@ class ViewController: UIViewController {
         self.view.addSubview(label)
         
 //        println(attributedString)
-        /*
-        let oldStyle : [NSString:[NSString:AnyObject!]] = [
-            "*" : [
-                TPTextAttributeFont : UIFont(name: "Courier", size: 10),
-                TPTextAttributeFontSize : 12
-            ],
-            "h1" : [
-                TPTextAttributeFont : UIFont(name: "Courier-Bold", size: 10),
-                TPTextAttributeFontSize : 18
-            ],
-            "h1 i" : [
-                TPTextAttributeFont : UIFont(name: "Courier-BoldOblique", size: 10),
-                TPTextAttributeForegroundColour : UIColor.greenColor()
-            ],
-            "p" : [
-                TPTextAttributeFontSize : 14,
-                TPTextAttributeParagraphSpacing : 10
-            ],
-            "a" : [
-                TPTextAttributeForegroundColour : UIColor.redColor()
-            ],
-            "i" : [
-                TPTextAttributeFont : UIFont(name: "Courier-Oblique", size: 10),
-            ],
-            "b" : [
-                TPTextAttributeFont : UIFont(name: "Courier-Bold", size: 10),
-            ]
-        ]
+        
+//        let oldStyle : [NSString:[NSString:AnyObject!]] = [
+//            "*" : [
+//                TPTextAttributeFont : UIFont(name: "Courier", size: 10),
+//                TPTextAttributeFontSize : 12
+//            ],
+//            "h1" : [
+//                TPTextAttributeFont : UIFont(name: "Courier-Bold", size: 10),
+//                TPTextAttributeFontSize : 18
+//            ],
+//            "h1 i" : [
+//                TPTextAttributeFont : UIFont(name: "Courier-BoldOblique", size: 10),
+//                TPTextAttributeForegroundColour : UIColor.greenColor()
+//            ],
+//            "p" : [
+//                TPTextAttributeFontSize : 14,
+//                TPTextAttributeParagraphSpacing : 10
+//            ],
+//            "a" : [
+//                TPTextAttributeForegroundColour : UIColor.redColor()
+//            ],
+//            "i" : [
+//                TPTextAttributeFont : UIFont(name: "Courier-Oblique", size: 10),
+//            ],
+//            "b" : [
+//                TPTextAttributeFont : UIFont(name: "Courier-Bold", size: 10),
+//            ]
+//        ]
+//
+//        let tStart = CFAbsoluteTimeGetCurrent()
+//        let attrStr = NSAttributedString(styledText: xml, styleDictionary: oldStyle)
+//        println("Old parser took \(CFAbsoluteTimeGetCurrent() - tStart)s")
 
-        let tStart = CFAbsoluteTimeGetCurrent()
-        let attrStr = NSAttributedString(styledText: xml, styleDictionary: oldStyle)
-        println("Old parser took \(CFAbsoluteTimeGetCurrent() - tStart)s")
-*/
     }
 
     

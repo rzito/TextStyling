@@ -297,11 +297,20 @@ public class TextStyle
         let lastDOMIdentifier = prefixDOMIdentifiers.removeLast()
         var styles = self.stylesForDOMStack(prefixDOMIdentifiers)
         
-        // new styles to add are just the current identifier (for now) - 
-        // TODO: update this to support combined styles: "h1 i" vs "i" for example.
-        let newStyles = self.stylesheet[lastDOMIdentifier] ?? []
+        // get new styles to add
+        var newStyles = self.stylesheet[lastDOMIdentifier] ?? []
         
-        // combine style with base styles - can be done by subtract + union of same set: hashes have been defined as equal for the same style with different values
+        // also add basic two-level nested styles, e.g. <h1><i>XXX</i></h1> with style specifier "h1 i"
+        if let secondLastDomIdentifier = prefixDOMIdentifiers.last
+        {
+            if let newLastPairStyles = self.stylesheet["\(secondLastDomIdentifier) \(lastDOMIdentifier)"]
+            {
+                newStyles.subtractInPlace(newLastPairStyles)
+                newStyles.unionInPlace(newLastPairStyles)
+            }
+        }
+        
+        // combine new styles with base styles - can be done by subtract + union of same set: hashes have been defined as equal for the same style with different values
         styles.subtractInPlace(newStyles)
         styles.unionInPlace(newStyles)
         
