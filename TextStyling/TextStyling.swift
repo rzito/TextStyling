@@ -34,7 +34,43 @@ class TextStyle
         case FontName(String)
         case FontSize(CGFloat)
         case ForegroundColor(UIColor)
+        case BackgroundColor(UIColor)
+        case Ligatures(Bool)
+        case Kerning(CGFloat)
+        case Strikethrough(Bool)
+        case StrikethroughColor(UIColor)
+        case UnderlineStyle(NSUnderlineStyle, NSUnderlineStyle)
+        case UnderlineColor(UIColor)
+        case StrokeColor(UIColor)
+        case StrokeWidth(CGFloat)
+        case Shadow(NSShadow)
+        case BaselineOffset(CGFloat)
+        
+        case LineSpacing(CGFloat)
         case ParagraphSpacing(CGFloat)
+        case Alignment(NSTextAlignment)
+        case FirstLineHeadIndent(CGFloat)
+        case HeadIndent(CGFloat)
+        case TailIndent(CGFloat)
+        case LineBreakMode(NSLineBreakMode)
+        case MinimumLineHeight(CGFloat)
+        case MaximumLineHeight(CGFloat)
+        case BaseWritingDirection(NSWritingDirection)
+        case LineHeightMultiple(CGFloat)
+        case ParagraphSpacingBefore(CGFloat)
+        case HyphenationFactor(Float)
+        case TabDefaultWidth(CGFloat)
+        case TabStops([NSTextTab])
+        
+        enum UnderlineStyleValue
+        {
+            case None, Single, Thick, Double
+        }
+        
+        enum UnderlinePatternValue
+        {
+            case Solid, Dot, Dash, DashDot, DashDotDot
+        }
         
         // style hashes/equality isn't based on value, just type.
         var hashValue: Int {
@@ -48,6 +84,60 @@ class TextStyle
                 return 3
             case .ParagraphSpacing:
                 return 4
+            case .ForegroundColor:
+                return 5
+            case .BackgroundColor:
+                return 6
+            case .Ligatures:
+                return 7
+            case .Kerning:
+                return 8
+            case .Strikethrough:
+                return 9
+            case .UnderlineStyle:
+                return 10
+            case .UnderlineColor:
+                return 11
+            case .StrokeColor:
+                return 12
+            case .StrokeWidth:
+                return 13
+            case .Shadow:
+                return 14
+            case .BaselineOffset:
+                return 17
+            case .LineSpacing:
+                return 18
+            case .ParagraphSpacing:
+                return 19
+            case .Alignment:
+                return 20
+            case .FirstLineHeadIndent:
+                return 21
+            case .HeadIndent:
+                return 22
+            case .TailIndent:
+                return 23
+            case .LineBreakMode:
+                return 24
+            case .MinimumLineHeight:
+                return 25
+            case .MaximumLineHeight:
+                return 26
+            case .BaseWritingDirection:
+                return 27
+            case .LineHeightMultiple:
+                return 28
+            case .ParagraphSpacingBefore:
+                return 29
+            case .HyphenationFactor:
+                return 30
+            case .TabDefaultWidth:
+                return 31
+            case .TabStops:
+                return 32
+            case .StrikethroughColor:
+                return 33
             }
         }
         
@@ -62,6 +152,8 @@ class TextStyle
                 return "ForegroundColor(\(color))"
             case .ParagraphSpacing(let spacing):
                 return "ParagraphSpacing(\(spacing))"
+            default:
+                return "Unnamed Style!"
             }
         }
 
@@ -112,12 +204,63 @@ class TextStyle
             {
             case .ForegroundColor(let color):
                 attributes[NSForegroundColorAttributeName] = color
+            case .BackgroundColor(let color):
+                attributes[NSBackgroundColorAttributeName] = color
             case .FontSize(let size):
                 fontSize = size
             case .FontName(let name):
                 fontName = name
+            case .Ligatures(let on):
+                attributes[NSLigatureAttributeName] = on
+            case .Kerning(let value):
+                attributes[NSKernAttributeName] = value
+            case .Strikethrough(let on):
+                attributes[NSStrikethroughStyleAttributeName] = on
+            case .StrikethroughColor(let color):
+                attributes[NSStrikethroughColorAttributeName] = color
+            case .UnderlineStyle(let style1, let style2):
+                attributes[NSUnderlineStyleAttributeName] = style1.rawValue | style2.rawValue
+            case .UnderlineColor(let color):
+                attributes[NSUnderlineColorAttributeName] = color
+            case .StrokeColor(let color):
+                attributes[NSStrokeColorAttributeName] = color
+            case .StrokeWidth(let width):
+                attributes[NSStrokeWidthAttributeName] = width
+            case .Shadow(let shadow):
+                attributes[NSShadowAttributeName] = shadow
+            case .BaselineOffset(let offset):
+                attributes[NSBaselineOffsetAttributeName] = offset
+                
+            case .LineSpacing(let spacing):
+                paragraphStyle.lineSpacing = spacing
             case .ParagraphSpacing(let spacing):
                 paragraphStyle.paragraphSpacing = spacing
+            case .Alignment(let alignment):
+                paragraphStyle.alignment = alignment
+            case .FirstLineHeadIndent(let indent):
+                paragraphStyle.firstLineHeadIndent = indent
+            case .HeadIndent(let indent):
+                paragraphStyle.headIndent = indent
+            case .TailIndent(let indent):
+                paragraphStyle.tailIndent = indent
+            case .LineBreakMode(let mode):
+                paragraphStyle.lineBreakMode = mode
+            case .MinimumLineHeight(let height):
+                paragraphStyle.minimumLineHeight = height
+            case .MaximumLineHeight(let height):
+                paragraphStyle.maximumLineHeight = height
+            case .BaseWritingDirection(let direction):
+                paragraphStyle.baseWritingDirection = direction
+            case .LineHeightMultiple(let multiple):
+                paragraphStyle.lineHeightMultiple = multiple
+            case .ParagraphSpacingBefore(let spacing):
+                paragraphStyle.paragraphSpacingBefore = spacing
+            case .HyphenationFactor(let factor):
+                paragraphStyle.hyphenationFactor = factor
+            case .TabDefaultWidth(let width):
+                paragraphStyle.defaultTabInterval = width
+            case .TabStops(let tabs):
+                paragraphStyle.tabStops = tabs
             }
         }
         
@@ -148,24 +291,30 @@ class TextStyle
         
         let stackHash = domStack.reduce("", combine: { $0 + "/" + $1 })
         
+        // attempt to fetch from cache
         if let styles = self.stylesCache[stackHash]
         {
             return styles
         }
 
+        // if we've reached the bottom of the stack - return default styles
         if domStack.count == 1
         {
             return self.stylesheet["*"] ?? []
         }
 
+        // get base styles recursively from first n-1 DOM identifiers
         var prefixDOMIdentifiers = domStack
         let lastDOMIdentifier = prefixDOMIdentifiers.removeLast()
-        let baseStyles = self.stylesForDOMStack(prefixDOMIdentifiers)
+        var styles = self.stylesForDOMStack(prefixDOMIdentifiers)
         
-        var newStyles = stylesheet[lastDOMIdentifier] ?? []
+        // new styles to add are just the current identifier (for now) - 
+        // TODO: update this to support combined styles: "h1 i" vs "i" for example.
+        let newStyles = self.stylesheet[lastDOMIdentifier] ?? []
         
-        // combine style with base styles
-        let styles = baseStyles.subtract(newStyles).union(newStyles)
+        // combine style with base styles - can be done by subtract + union of same set: hashes have been defined as equal for the same style with different values
+        styles.subtractInPlace(newStyles)
+        styles.unionInPlace(newStyles)
         
         self.stylesCache[stackHash] = styles
 

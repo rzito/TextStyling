@@ -13,7 +13,7 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-    
+
         let stylesheet: TextStyle.Stylesheet = [
             "*" : [
                 .FontName("Courier"),
@@ -33,10 +33,12 @@ class ViewController: UIViewController {
                 .ParagraphSpacing(10)
             ],
             "a" : [
-                .ForegroundColor(UIColor.redColor())
+                .ForegroundColor(UIColor.redColor()),
+                .UnderlineStyle(NSUnderlineStyle.StyleDouble, NSUnderlineStyle.PatternDashDotDot)
             ],
             "i" : [
                 .FontName("Courier-Oblique"),
+                .Kerning(5)
             ],
             "b" : [
                 .FontName("Courier-Bold")
