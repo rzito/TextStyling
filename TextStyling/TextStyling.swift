@@ -11,7 +11,7 @@ import UIKit
 
 extension NSAttributedString
 {
-    class func attributedStringFromXML(xml: String, stylesheet: TextStyle.Stylesheet) -> NSAttributedString?
+    public class func attributedStringFromXML(xml: String, stylesheet: TextStyle.Stylesheet) -> NSAttributedString?
     {
         let textStyle = TextStyle(stylesheet: stylesheet)
         return textStyle.attributedStringFromXML(xml)
@@ -19,17 +19,17 @@ extension NSAttributedString
 }
 
 // Styles are equal if they're of the same type. Hash type is based on type.
-func ==(style1: TextStyle.Style, style2: TextStyle.Style) -> Bool
+public func ==(style1: TextStyle.Style, style2: TextStyle.Style) -> Bool
 {
     return style1.hashValue == style2.hashValue
 }
 
-class TextStyle
+public class TextStyle
 {
-    typealias Stylesheet = [TextStyle.DOMIdentifier:Set<TextStyle.Style>]
-    typealias DOMIdentifier = String
+    public typealias Stylesheet = [TextStyle.DOMIdentifier:Set<TextStyle.Style>]
+    public typealias DOMIdentifier = String
     
-    enum Style : Printable, Hashable
+    public enum Style : Printable, Hashable
     {
         case FontName(String)
         case FontSize(CGFloat)
@@ -62,18 +62,8 @@ class TextStyle
         case TabDefaultWidth(CGFloat)
         case TabStops([NSTextTab])
         
-        enum UnderlineStyleValue
-        {
-            case None, Single, Thick, Double
-        }
-        
-        enum UnderlinePatternValue
-        {
-            case Solid, Dot, Dash, DashDot, DashDotDot
-        }
-        
-        // style hashes/equality isn't based on value, just type.
-        var hashValue: Int {
+        // style hashes/equality isn't based on value, just type. All values should be unique.
+        public var hashValue: Int {
             switch self
             {
             case .FontName:
@@ -141,7 +131,7 @@ class TextStyle
             }
         }
         
-        var description: String {
+        public var description: String {
             switch self
             {
             case .FontName(let name):
@@ -264,7 +254,7 @@ class TextStyle
             }
         }
         
-        // Font size and name specified separately until this point. Put them back together, as expected by NSParagraphStyleAttributeName.
+        // Font size and name specified separately until this point. Put them back together, as expected by NSFontAttributeName.
         if let fontName = fontName, fontSize = fontSize
         {
             attributes[NSFontAttributeName] = UIFont(name: fontName, size: fontSize)
@@ -277,7 +267,6 @@ class TextStyle
         {
             attributes[NSFontAttributeName] = UIFont.systemFontOfSize(fontSize)
         }
-        
         
         // store in cache
         self.attributesCache[stackHash] = attributes

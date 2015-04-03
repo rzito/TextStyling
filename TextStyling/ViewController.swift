@@ -11,7 +11,8 @@ import TPCore
 
 class ViewController: UIViewController {
 
-    override func viewDidLoad() {
+    override func viewDidLoad()
+    {
         super.viewDidLoad()
 
         let stylesheet: TextStyle.Stylesheet = [
@@ -30,11 +31,12 @@ class ViewController: UIViewController {
             ],
             "p" : [
                 .FontSize(14),
-                .ParagraphSpacing(10)
+                .ParagraphSpacing(10),
+                .FirstLineHeadIndent(20)
             ],
             "a" : [
                 .ForegroundColor(UIColor.redColor()),
-                .UnderlineStyle(NSUnderlineStyle.StyleDouble, NSUnderlineStyle.PatternDashDotDot)
+                .UnderlineStyle(.StyleDouble, .PatternDashDotDot)
             ],
             "i" : [
                 .FontName("Courier-Oblique"),
