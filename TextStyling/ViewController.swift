@@ -6,6 +6,16 @@
 //  Copyright (c) 2015 Touchpress. All rights reserved.
 //
 
+/*
+TODO:
+
+- .classname
+- anchors
+- attachments?
+- more general css parsing?
+
+*/
+
 import UIKit
 import TPCore
 
@@ -17,13 +27,17 @@ class ViewController: UIViewController {
 
         let stylesheet: TextStyle.Stylesheet = [
             "*" : [
-                .FontName("Courier"),
+                .FontName("Avenir-Book"),
                 .FontSize(12)
             ],
             "h1" : [
                 .FontName("Courier-Bold"),
                 .FontSize(18),
-                .ParagraphSpacing(25)
+                .ParagraphSpacing(25),
+                .ForegroundColor(UIColor.blueColor())
+            ],
+            "h1.red" : [
+                .ForegroundColor(UIColor.redColor())
             ],
             "h1 i" : [
                 .FontName("Courier-BoldOblique"),
@@ -33,6 +47,11 @@ class ViewController: UIViewController {
                 .FontSize(14),
                 .ParagraphSpacing(10),
                 .FirstLineHeadIndent(20)
+            ],
+            "p.blockquote" : [
+                .FirstLineHeadIndent(50),
+                .HeadIndent(50),
+                .TailIndent(-50)
             ],
             "a" : [
                 .ForegroundColor(UIColor.redColor()),
@@ -44,12 +63,11 @@ class ViewController: UIViewController {
             ],
             "b" : [
                 .FontName("Courier-Bold")
-            ]
+            ],
         ]
         
         let path = NSBundle.mainBundle().pathForResource("en", ofType: "xml")!
         let xml = NSString(contentsOfFile: path, encoding: NSUTF8StringEncoding, error: nil) as! String
-//        let xml = "<h1>This <i>italic</i> header</h1><p><b>blah</b> text paragraph <i>italic</i></p>"
         
         let tStart1 = CFAbsoluteTimeGetCurrent()
         let attributedString = NSAttributedString.attributedStringFromXML(xml, stylesheet: stylesheet)

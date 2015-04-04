@@ -26,11 +26,11 @@ public func ==(style1: TextStyle.Style, style2: TextStyle.Style) -> Bool
 
 public class TextStyle
 {
-    public typealias Stylesheet = [TextStyle.DOMIdentifier:Set<TextStyle.Style>]
-    public typealias DOMIdentifier = String
+    public typealias Stylesheet = [String:Set<TextStyle.Style>]
     
     public enum Style : Printable, Hashable
     {
+        // character-based styles
         case FontName(String)
         case FontSize(CGFloat)
         case ForegroundColor(UIColor)
@@ -46,6 +46,7 @@ public class TextStyle
         case Shadow(NSShadow)
         case BaselineOffset(CGFloat)
         
+        // paragraph-based styles
         case LineSpacing(CGFloat)
         case ParagraphSpacing(CGFloat)
         case Alignment(NSTextAlignment)
@@ -154,28 +155,34 @@ public class TextStyle
     private var stylesCache = [String:Set<Style>]()
     private var attributesCache = [String:[String:AnyObject]]()
     
+    private typealias DOMElementName = String
+    private typealias DOMElementClass = String
+    
     init(stylesheet: Stylesheet)
     {
         self.stylesheet = stylesheet
     }
     
+    public func attributedStringFromXML(xml: String) -> NSAttributedString?
+    {
+        return TextStyleParser.attributedStringForXML(xml, style: self)
+    }
+    
+    // Paragraph elements decide when characters are added to the string, and when paragraph breaks are inserted.
+    // TODO: pass in init, or as a style parameter
     private func elementIsParagraph(element: String) -> Bool
     {
         return element == "p" || element == "h1" || element == "h2" || element == "h3"
     }
     
-    private func attributedStringFromXML(xml: String) -> NSAttributedString?
-    {
-        return TextStyleParser.attributedStringForXML(xml, style: self)
-    }
-    
-    private func attributesForDOMStack(domStack: [TextStyle.DOMIdentifier]) -> [String:AnyObject]
+    private func attributesForDOMStack(domStack: [(DOMElementName, DOMElementClass)]) -> [String:AnyObject]
     {
         let styles = self.stylesForDOMStack(domStack)
         
-        let stackHash = domStack.reduce("", combine: { $0 + "/" + $1 })
+        let stackHash = domStack.reduce("", combine: { $0 + "/\($1.0).\($1.1)" })
         
-        // check cache
+        // check cache for already-computed attributes
+        // TODO: Ideally we'd hash the styles, rather than the stack. But that's tricky as it depends on their values too.
         if let attributes = self.attributesCache[stackHash]
         {
             return attributes
@@ -275,10 +282,10 @@ public class TextStyle
         
     }
     
-    private func stylesForDOMStack(domStack: [TextStyle.DOMIdentifier]) -> Set<Style>
+    private func stylesForDOMStack(domStack: [(DOMElementName, DOMElementClass)]) -> Set<Style>
     {
         
-        let stackHash = domStack.reduce("", combine: { $0 + "/" + $1 })
+        let stackHash = domStack.reduce("", combine: { $0 + "/\($1.0).\($1.1)" })
         
         // attempt to fetch from cache
         if let styles = self.stylesCache[stackHash]
@@ -286,33 +293,37 @@ public class TextStyle
             return styles
         }
 
-        // if we've reached the bottom of the stack - return default styles
+        // if we've reached the bottom of the stack (root) - return default styles
         if domStack.count == 1
         {
             return self.stylesheet["*"] ?? []
         }
-
+        
         // get base styles recursively from first n-1 DOM identifiers
-        var prefixDOMIdentifiers = domStack
-        let lastDOMIdentifier = prefixDOMIdentifiers.removeLast()
-        var styles = self.stylesForDOMStack(prefixDOMIdentifiers)
+        var prefixDOMStack = domStack
+        let lastDOMItem = prefixDOMStack.removeLast()
+        var styles = self.stylesForDOMStack(prefixDOMStack)
         
-        // get new styles to add
-        var newStyles = self.stylesheet[lastDOMIdentifier] ?? []
+        // override with new styles, in reverse priority order:
+
+        // elementName
+        styles.unionInPlace(self.stylesheet[lastDOMItem.0] ?? [])
+
+        // .className
+        styles.unionInPlace(self.stylesheet["." + lastDOMItem.1] ?? [])
         
-        // also add basic two-level nested styles, e.g. <h1><i>XXX</i></h1> with style specifier "h1 i"
-        if let secondLastDomIdentifier = prefixDOMIdentifiers.last
+        // elementName.className
+        styles.unionInPlace(self.stylesheet[lastDOMItem.0 + "." + lastDOMItem.1] ?? [])
+
+        // also add two-level nested styles
+        // e.g. <h1><i>XXX</i></h1> with style specifier "h1 i"
+        if let prevDOMItem = prefixDOMStack.last
         {
-            if let newLastPairStyles = self.stylesheet["\(secondLastDomIdentifier) \(lastDOMIdentifier)"]
-            {
-                newStyles.subtractInPlace(newLastPairStyles)
-                newStyles.unionInPlace(newLastPairStyles)
-            }
+            // elementName1 elementName2
+            styles.unionInPlace(self.stylesheet[prevDOMItem.0 + " " + lastDOMItem.0] ?? [])
+
+            // TODO: Add more general two-level support, eg elementName1.class elementName2
         }
-        
-        // combine new styles with base styles - can be done by subtract + union of same set: hashes have been defined as equal for the same style with different values
-        styles.subtractInPlace(newStyles)
-        styles.unionInPlace(newStyles)
         
         self.stylesCache[stackHash] = styles
 
@@ -328,7 +339,7 @@ private class TextStyleParser : NSObject
     
     unowned let style: TextStyle
     
-    var domIdentifierStack: [TextStyle.DOMIdentifier] = []
+    var domIdentifierStack: [(TextStyle.DOMElementName, TextStyle.DOMElementClass)] = []
     var inParagraph = true
 
     let attributedString = NSMutableAttributedString()
@@ -377,7 +388,8 @@ extension TextStyleParser : NSXMLParserDelegate
     @objc private func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject])
     {
         self.inParagraph = self.inParagraph || self.style.elementIsParagraph(elementName)
-        self.domIdentifierStack.append(elementName)
+        let className = (attributeDict["class"] as? String) ?? ""
+        self.domIdentifierStack.append((elementName, className))
     }
     
     @objc private func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?)
