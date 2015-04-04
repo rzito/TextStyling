@@ -8,16 +8,6 @@
 
 import UIKit
 
-
-extension NSAttributedString
-{
-    public class func attributedStringFromXML(xml: String, stylesheet: TextStyle.Stylesheet) -> NSAttributedString?
-    {
-        let textStyle = TextStyle(stylesheet: stylesheet)
-        return textStyle.attributedStringFromXML(xml)
-    }
-}
-
 // Styles are equal if they're of the same type. Hash type is based on type.
 public func ==(style1: TextStyle.Style, style2: TextStyle.Style) -> Bool
 {
@@ -26,6 +16,8 @@ public func ==(style1: TextStyle.Style, style2: TextStyle.Style) -> Bool
 
 public class TextStyle
 {
+    static let AnchorAttributeName = "TextStyleAnchor"
+
     public typealias Stylesheet = [String:Set<TextStyle.Style>]
     
     public enum Style : Printable, Hashable
@@ -155,8 +147,8 @@ public class TextStyle
     private var stylesCache = [String:Set<Style>]()
     private var attributesCache = [String:[String:AnyObject]]()
     
-    private typealias DOMElementName = String
-    private typealias DOMElementClass = String
+    typealias DOMElementName = String
+    typealias DOMElementClass = String
     
     init(stylesheet: Stylesheet)
     {
@@ -169,13 +161,13 @@ public class TextStyle
     }
     
     // Paragraph elements decide when characters are added to the string, and when paragraph breaks are inserted.
-    // TODO: pass in init, or as a style parameter
-    private func elementIsParagraph(element: String) -> Bool
+    // TODO: allow client control - eg pass to init, or as a style parameter
+    func elementIsParagraph(element: DOMElementName) -> Bool
     {
         return element == "p" || element == "h1" || element == "h2" || element == "h3"
     }
     
-    private func attributesForDOMStack(domStack: [(DOMElementName, DOMElementClass)]) -> [String:AnyObject]
+    func attributesForDOMStack(domStack: [(DOMElementName, DOMElementClass)]) -> [String:AnyObject]
     {
         let styles = self.stylesForDOMStack(domStack)
         
@@ -304,7 +296,7 @@ public class TextStyle
         let lastDOMItem = prefixDOMStack.removeLast()
         var styles = self.stylesForDOMStack(prefixDOMStack)
         
-        // override with new styles, in reverse priority order:
+        // override with progressively more specific new styles
 
         // elementName
         styles.unionInPlace(self.stylesheet[lastDOMItem.0] ?? [])
@@ -324,7 +316,7 @@ public class TextStyle
 
             // TODO: Add more general two-level support, eg elementName1.class elementName2
         }
-        
+                
         self.stylesCache[stackHash] = styles
 
         return styles
@@ -333,97 +325,3 @@ public class TextStyle
     
 }
 
-private class TextStyleParser : NSObject
-{
-    let xmlParser: NSXMLParser!
-    
-    unowned let style: TextStyle
-    
-    var domIdentifierStack: [(TextStyle.DOMElementName, TextStyle.DOMElementClass)] = []
-    var inParagraph = true
-
-    let attributedString = NSMutableAttributedString()
-
-    init?(xml: String, style: TextStyle)
-    {
-        self.style = style
-        
-        // wrap xml in root node
-        let xmlWrapped = "<root>\(xml)</root>"
-        if let data = xmlWrapped.dataUsingEncoding(NSUTF8StringEncoding, allowLossyConversion: true)
-        {
-            self.xmlParser = NSXMLParser(data: data)
-        }
-        else
-        {
-            self.xmlParser = nil
-        }
-        
-        super.init()
-        
-        if self.xmlParser == nil
-        {
-            return nil
-        }
-        
-        self.xmlParser.delegate = self
-        
-    }
-    
-    class func attributedStringForXML(xml: String, style: TextStyle) -> NSAttributedString?
-    {
-        if let parser = TextStyleParser(xml: xml, style: style)
-        {
-            parser.xmlParser.parse()
-            return (parser.attributedString.copy() as! NSAttributedString)
-        }
-        
-        return nil
-    }
-    
-}
-
-extension TextStyleParser : NSXMLParserDelegate
-{
-    @objc private func parser(parser: NSXMLParser, didStartElement elementName: String, namespaceURI: String?, qualifiedName qName: String?, attributes attributeDict: [NSObject : AnyObject])
-    {
-        self.inParagraph = self.inParagraph || self.style.elementIsParagraph(elementName)
-        let className = (attributeDict["class"] as? String) ?? ""
-        self.domIdentifierStack.append((elementName, className))
-    }
-    
-    @objc private func parser(parser: NSXMLParser, didEndElement elementName: String, namespaceURI: String?, qualifiedName qName: String?)
-    {
-        
-        // if we've exited a paragraph, add the paragraph break character
-        if self.style.elementIsParagraph(elementName)
-        {
-            self.inParagraph = false
-
-            let attributes = self.style.attributesForDOMStack(self.domIdentifierStack)
-            
-            let paragraphBreak = NSAttributedString(string: "\u{2029}", attributes: attributes)
-            self.attributedString.appendAttributedString(paragraphBreak)
-        }
-        
-        self.domIdentifierStack.removeLast()
-    }
-    
-    @objc private func parser(parser: NSXMLParser, foundCharacters string: String?)
-    {
-        // characters shouldn't be added outside of paragraphs - eg whitespace at root level.
-        if !self.inParagraph
-        {
-            return
-        }
-        
-        if let string = string
-        {
-            let attributes = self.style.attributesForDOMStack(self.domIdentifierStack)
-
-            let attributedCharacters = NSAttributedString(string: string, attributes: attributes)
-            self.attributedString.appendAttributedString(attributedCharacters)
-        }
-    }
-
-}

@@ -21,6 +21,8 @@ import TPCore
 
 class ViewController: UIViewController {
 
+    private var textView: UITextView!
+    
     override func viewDidLoad()
     {
         super.viewDidLoad()
@@ -73,11 +75,16 @@ class ViewController: UIViewController {
         let attributedString = NSAttributedString.attributedStringFromXML(xml, stylesheet: stylesheet)
         println("New parser took \(CFAbsoluteTimeGetCurrent() - tStart1)s")
 
-        let label = UITextView(frame: self.view.bounds)
-        label.attributedText = attributedString
-        label.editable = false
-        label.contentInset.top = 20
-        self.view.addSubview(label)
+//        println(attributedString)
+        
+        self.textView = UITextView(frame: self.view.bounds)
+        self.textView.attributedText = attributedString
+        self.textView.editable = false
+        self.textView.contentInset.top = 20
+        self.view.addSubview(self.textView)
+        
+        let tapGesture = UITapGestureRecognizer(target: self, action: "handleTap:")
+        self.textView.addGestureRecognizer(tapGesture)
         
 //        println(attributedString)
         
@@ -115,6 +122,14 @@ class ViewController: UIViewController {
 
     }
 
+    func handleTap(gestureRecogniser: UITapGestureRecognizer)
+    {
+        let tapLocation = gestureRecogniser.locationInView(self.textView)
+        var anchorRect: CGRect?
+        let anchorAttributes = self.textView.anchorAttributesAtPoint(tapLocation, anchorRect: &anchorRect)
+        println("\(anchorAttributes) in \(anchorRect)")
+    }
     
 }
+
 

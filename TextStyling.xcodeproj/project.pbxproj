@@ -19,6 +19,7 @@
 		9B07699C1ACF09E300611B0F /* TPCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9B0769971ACF09CE00611B0F /* TPCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		9B6CFDBD1ACF10DA0029C22C /* medsamp2015.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */; };
 		9B6CFDBF1ACFE94D0029C22C /* TextStylingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */; };
+		9B6CFDC11ACFF1BB0029C22C /* TextStyling+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +75,7 @@
 		9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPCore.xcodeproj; path = ../../TouchPress/Projects/TPCore/TPCoreiOSFramework/TPCore/TPCore.xcodeproj; sourceTree = "<group>"; };
 		9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medsamp2015.xml; sourceTree = "<group>"; };
 		9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStylingParser.swift; sourceTree = "<group>"; };
+		9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextStyling+UIKit.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,6 +127,7 @@
 				9B07696B1ACEDA3D00611B0F /* Supporting Files */,
 				9B07698D1ACEDA6B00611B0F /* TextStyling.swift */,
 				9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */,
+				9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */,
 				9B07698F1ACF03A600611B0F /* en.xml */,
 				9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */,
 			);
@@ -293,6 +296,7 @@
 			files = (
 				9B07698E1ACEDA6B00611B0F /* TextStyling.swift in Sources */,
 				9B0769701ACEDA3D00611B0F /* ViewController.swift in Sources */,
+				9B6CFDC11ACFF1BB0029C22C /* TextStyling+UIKit.swift in Sources */,
 				9B6CFDBF1ACFE94D0029C22C /* TextStylingParser.swift in Sources */,
 				9B07696E1ACEDA3D00611B0F /* AppDelegate.swift in Sources */,
 			);
