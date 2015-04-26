@@ -3,7 +3,7 @@
 //  TextStyling
 //
 //  Created by Richard Zito on 04/04/2015.
-//  Copyright (c) 2015 Touchpress. All rights reserved.
+//  Copyright (c) 2015 Richard Zito. All rights reserved.
 //
 
 import UIKit

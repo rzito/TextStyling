@@ -16,6 +16,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        
+        
+        let redHello = NSAttributedString(string: "Hello", attributes: [ NSForegroundColorAttributeName : UIColor.redColor()])
+        let blueWorld = NSAttributedString(string: " World", attributes: [ NSForegroundColorAttributeName : UIColor.redColor()])
+    
+        let attributedString = NSMutableAttributedString()
+        attributedString.appendAttributedString(redHello)
+        attributedString.appendAttributedString(blueWorld)
+        
         return true
     }
 
