@@ -13,13 +13,10 @@
 		9B0769751ACEDA3D00611B0F /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9B0769741ACEDA3D00611B0F /* Images.xcassets */; };
 		9B0769781ACEDA3D00611B0F /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9B0769761ACEDA3D00611B0F /* LaunchScreen.xib */; };
 		9B0769841ACEDA3D00611B0F /* TextStylingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B0769831ACEDA3D00611B0F /* TextStylingTests.swift */; };
-		9B07698E1ACEDA6B00611B0F /* TextStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B07698D1ACEDA6B00611B0F /* TextStyling.swift */; };
-		9B0769901ACF03A600611B0F /* en.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9B07698F1ACF03A600611B0F /* en.xml */; };
-		9B07699A1ACF09D500611B0F /* TPCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9B0769971ACF09CE00611B0F /* TPCore.framework */; };
-		9B07699C1ACF09E300611B0F /* TPCore.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9B0769971ACF09CE00611B0F /* TPCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		9B6CFDBD1ACF10DA0029C22C /* medsamp2015.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */; };
-		9B6CFDBF1ACFE94D0029C22C /* TextStylingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */; };
-		9B6CFDC11ACFF1BB0029C22C /* TextStyling+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */; };
+		9B2B65851AED7A7C00359DD1 /* Moby Dick.xml in Resources */ = {isa = PBXBuildFile; fileRef = 9B2B65841AED7A7C00359DD1 /* Moby Dick.xml */; };
+		9B2B658A1AED7AC600359DD1 /* TextStyling+UIKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B65871AED7AC600359DD1 /* TextStyling+UIKit.swift */; };
+		9B2B658B1AED7AC600359DD1 /* TextStyling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B65881AED7AC600359DD1 /* TextStyling.swift */; };
+		9B2B658C1AED7AC600359DD1 /* TextStylingParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B2B65891AED7AC600359DD1 /* TextStylingParser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,20 +27,6 @@
 			remoteGlobalIDString = 9B0769671ACEDA3D00611B0F;
 			remoteInfo = TextStyling;
 		};
-		9B0769961ACF09CE00611B0F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9B5BAFBE1A3B0B5400EC00C7;
-			remoteInfo = TPCore;
-		};
-		9B0769981ACF09CE00611B0F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 9B5BAFC91A3B0B5500EC00C7;
-			remoteInfo = TPCoreTests;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -53,7 +36,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				9B07699C1ACF09E300611B0F /* TPCore.framework in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -70,12 +52,10 @@
 		9B07697D1ACEDA3D00611B0F /* TextStylingTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TextStylingTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9B0769821ACEDA3D00611B0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9B0769831ACEDA3D00611B0F /* TextStylingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStylingTests.swift; sourceTree = "<group>"; };
-		9B07698D1ACEDA6B00611B0F /* TextStyling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyling.swift; sourceTree = "<group>"; };
-		9B07698F1ACF03A600611B0F /* en.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = en.xml; sourceTree = "<group>"; };
-		9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = TPCore.xcodeproj; path = ../../TouchPress/Projects/TPCore/TPCoreiOSFramework/TPCore/TPCore.xcodeproj; sourceTree = "<group>"; };
-		9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = medsamp2015.xml; sourceTree = "<group>"; };
-		9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStylingParser.swift; sourceTree = "<group>"; };
-		9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextStyling+UIKit.swift"; sourceTree = "<group>"; };
+		9B2B65841AED7A7C00359DD1 /* Moby Dick.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = "Moby Dick.xml"; sourceTree = "<group>"; };
+		9B2B65871AED7AC600359DD1 /* TextStyling+UIKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "TextStyling+UIKit.swift"; sourceTree = "<group>"; };
+		9B2B65881AED7AC600359DD1 /* TextStyling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStyling.swift; sourceTree = "<group>"; };
+		9B2B65891AED7AC600359DD1 /* TextStylingParser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextStylingParser.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,7 +63,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B07699A1ACF09D500611B0F /* TPCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -100,7 +79,7 @@
 		9B07695F1ACEDA3D00611B0F = {
 			isa = PBXGroup;
 			children = (
-				9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */,
+				9B2B65861AED7AC600359DD1 /* TextStyling */,
 				9B07696A1ACEDA3D00611B0F /* TextStyling */,
 				9B0769801ACEDA3D00611B0F /* TextStylingTests */,
 				9B0769691ACEDA3D00611B0F /* Products */,
@@ -125,11 +104,7 @@
 				9B0769741ACEDA3D00611B0F /* Images.xcassets */,
 				9B0769761ACEDA3D00611B0F /* LaunchScreen.xib */,
 				9B07696B1ACEDA3D00611B0F /* Supporting Files */,
-				9B07698D1ACEDA6B00611B0F /* TextStyling.swift */,
-				9B6CFDBE1ACFE94D0029C22C /* TextStylingParser.swift */,
-				9B6CFDC01ACFF1BB0029C22C /* TextStyling+UIKit.swift */,
-				9B07698F1ACF03A600611B0F /* en.xml */,
-				9B6CFDBC1ACF10DA0029C22C /* medsamp2015.xml */,
+				9B2B65841AED7A7C00359DD1 /* Moby Dick.xml */,
 			);
 			path = TextStyling;
 			sourceTree = "<group>";
@@ -159,13 +134,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		9B0769921ACF09CE00611B0F /* Products */ = {
+		9B2B65861AED7AC600359DD1 /* TextStyling */ = {
 			isa = PBXGroup;
 			children = (
-				9B0769971ACF09CE00611B0F /* TPCore.framework */,
-				9B0769991ACF09CE00611B0F /* TPCoreTests.xctest */,
+				9B2B65871AED7AC600359DD1 /* TextStyling+UIKit.swift */,
+				9B2B65881AED7AC600359DD1 /* TextStyling.swift */,
+				9B2B65891AED7AC600359DD1 /* TextStylingParser.swift */,
 			);
-			name = Products;
+			name = TextStyling;
+			path = ../TextStyling;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -236,12 +213,6 @@
 			mainGroup = 9B07695F1ACEDA3D00611B0F;
 			productRefGroup = 9B0769691ACEDA3D00611B0F /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 9B0769921ACF09CE00611B0F /* Products */;
-					ProjectRef = 9B0769911ACF09CE00611B0F /* TPCore.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				9B0769671ACEDA3D00611B0F /* TextStyling */,
@@ -250,32 +221,14 @@
 		};
 /* End PBXProject section */
 
-/* Begin PBXReferenceProxy section */
-		9B0769971ACF09CE00611B0F /* TPCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TPCore.framework;
-			remoteRef = 9B0769961ACF09CE00611B0F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		9B0769991ACF09CE00611B0F /* TPCoreTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = TPCoreTests.xctest;
-			remoteRef = 9B0769981ACF09CE00611B0F /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
-
 /* Begin PBXResourcesBuildPhase section */
 		9B0769661ACEDA3D00611B0F /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B0769901ACF03A600611B0F /* en.xml in Resources */,
 				9B0769731ACEDA3D00611B0F /* Main.storyboard in Resources */,
+				9B2B65851AED7A7C00359DD1 /* Moby Dick.xml in Resources */,
 				9B0769781ACEDA3D00611B0F /* LaunchScreen.xib in Resources */,
-				9B6CFDBD1ACF10DA0029C22C /* medsamp2015.xml in Resources */,
 				9B0769751ACEDA3D00611B0F /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,11 +247,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9B07698E1ACEDA6B00611B0F /* TextStyling.swift in Sources */,
+				9B2B658A1AED7AC600359DD1 /* TextStyling+UIKit.swift in Sources */,
+				9B2B658C1AED7AC600359DD1 /* TextStylingParser.swift in Sources */,
 				9B0769701ACEDA3D00611B0F /* ViewController.swift in Sources */,
-				9B6CFDC11ACFF1BB0029C22C /* TextStyling+UIKit.swift in Sources */,
-				9B6CFDBF1ACFE94D0029C22C /* TextStylingParser.swift in Sources */,
 				9B07696E1ACEDA3D00611B0F /* AppDelegate.swift in Sources */,
+				9B2B658B1AED7AC600359DD1 /* TextStyling.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
